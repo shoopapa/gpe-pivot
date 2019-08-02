@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-gem "rack"
+require "sinatra"
+require "webix_sinatra_gem"
 
-app = Proc.new do |env|
-    ['200', {'Content-Type' => 'text/html'}, ['A barebones rack app.']]
-end
- 
-Rack::Handler::WEBrick.run app
+puts "joe is epic"
+server = WebixSinatraGem::Server.new
+
+server.server

@@ -1,13 +1,24 @@
 PATH
   remote: .
   specs:
-    rack (0.1.0)
+    webix_sinatra_gem (0.1.0)
+      sinatra
 
 GEM
   remote: https://rubygems.org/
   specs:
     awesome_print (1.8.0)
+    mustermann (1.0.3)
+    rack (2.0.7)
+    rack-protection (2.0.5)
+      rack
     rake (10.5.0)
+    sinatra (2.0.5)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.5)
+      tilt (~> 2.0)
+    tilt (2.0.9)
 
 PLATFORMS
   ruby
@@ -15,8 +26,9 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   bundler (~> 1.17)
-  rack!
+  rack
   rake (~> 10.0)
+  webix_sinatra_gem!
 
 BUNDLED WITH
    1.17.2
