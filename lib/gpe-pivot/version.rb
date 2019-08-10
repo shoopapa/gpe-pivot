@@ -1,3 +1,3 @@
-module WebixSinatraGem
+module GPEPivot 
   VERSION = "0.1.0"
 end

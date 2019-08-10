@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "webix_sinatra_gem/version"
+require "gpe-pivot/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "webix_sinatra_gem"
-  spec.version       = WebixSinatraGem::VERSION
+  spec.name          = "gpe-pivot"
+  spec.version       = GPEPivot::VERSION
   spec.authors       = ["shoopapa"]
   spec.email         = ["joedavis29@gmail.com"]
 

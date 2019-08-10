@@ -1,8 +1,8 @@
-require "webix_sinatra_gem/version"
+require "gpe-pivot/version"
 require "sinatra"
 require "json"
 
-module WebixSinatraGem
+module GPEPivot
     
   class Error < StandardError; end
 
