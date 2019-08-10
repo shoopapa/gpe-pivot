@@ -10,39 +10,9 @@
         
     </head>
     <body>
-        <h1> Galileo Pivot Data</h1>
+        <h1> Dad is cool </h1>
         <div id="testA">
             <script type="text/javascript" charset="utf-8">
-
-                struct1 = {
-                  rows: ["Datacenter", "Name"],
-                  columns: [],
-                  values: [
-                  {name: "Peak CPU (24 hours)", operation: "sum"},
-                  {name: "Peak CPU (7 days)", operation: "sum"},
-                  {name: "Peak CPU (30 days)", operation: "sum"},
-                  {name: "Peak Memory (24 hours)", operation: "sum"}, 
-                  {name: "Peak Memory (7 days)", operation: "sum"},
-                  {name: "Peak Memory (30 days)", operation: "sum"},
-                  {name: "Avg CPU (24 hours)", operation: "sum"},
-                  {name: "Avg CPU (7 days)", operation: "sum"},
-                  {name: "Avg CPU (30 days)", operation: "sum"},
-                  {name: "Avg Memory (24 hours)", operation: "sum"},
-                  {name: "Avg Memory (7 days)", operation: "sum"},
-                  {name: "Avg Memory (30 days)", operation: "sum"}
-                  ],
-                };
-
-                struct2 = {
-                  rows: ["Model"],
-                  columns: [ "CPU Speed" ],
-                  values: [
-                  {name: "VMs", operation: "sum"},
-                  {name: "CPU Cores", operation: "sum"},
-                  {name: "CPU Sockets", operation: "sum"}
-                  ],
-                };
-
                 function table(data) {
                     webix.ui({
                         id:"pivot",
@@ -50,12 +20,34 @@
                         data: data,
                         columnWidth: 150,
                         datatable:{
-                            rowHeight:33,
-                            rowLineHeight:33,
-                            headerRowHeight:33,
+                            rowHeight:27,
+                            rowLineHeight:27,
+                            headerRowHeight:27,
+                            scheme:{
+                              $init:function(obj){
+                                obj.name = obj.name + " (a)"
+                              }
+                            }
                         },
                         max: true,
-                        structure: struct2,
+                        structure: {
+                            rows: ["Datacenter", "Name"],
+                            columns: [],
+                            values: [
+                                {name: "Peak CPU (24 hours)", operation: "sum"},
+                                {name: "Peak CPU (7 days)", operation: "sum"},
+                                {name: "Peak CPU (30 days)", operation: "sum"},
+                                {name: "Peak Memory (24 hours)", operation: "sum"}, 
+                                {name: "Peak Memory (7 days)", operation: "sum"},
+                                {name: "Peak Memory (30 days)", operation: "sum"},
+                                {name: "Avg CPU (24 hours)", operation: "sum"},
+                                {name: "Avg CPU (7 days)", operation: "sum"},
+                                {name: "Avg CPU (30 days)", operation: "sum"},
+                                {name: "Avg Memory (24 hours)", operation: "sum"},
+                                {name: "Avg Memory (7 days)", operation: "sum"},
+                                {name: "Avg Memory (30 days)", operation: "sum"}
+                            ],
+                        },
                         fieldMap: {
 
                         },
@@ -63,7 +55,6 @@
                 }
 
                 var url='http://localhost:9292/data';
-                //var url='https://my.galileosuite.com/atsgroup/table/nil/VMHostAssetsTable.json?t=1747b821fe3cfb681a2ef92040dbbbae003d99d905679903820001f5531970e0';
                 var Http = new XMLHttpRequest();
                 Http.open("GET", url, true); 
                 Http.send(); 

@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-
-require "sinatra"
-require "webix_sinatra_gem"
-
-puts "joe is epic"
-server = WebixSinatraGem::Server.new
-
-server.server
