@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <script src="./pivot/codebase/webix/webix.js" type="text/javascript"></script>
+        <script src="./pivot/codebase/pivot.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="./pivot/codebase/webix/webix.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="./pivot/codebase/pivot.css" type="text/css" charset="utf-8">
+    </head>
+    <body>
+        <h3> Galileo Pivot Data</h3>
+        <div id="testA">
+            <script type="text/javascript" charset="utf-8">
+
+                webix.ui({
+                    cols: [{
+                        id:"pivot",
+                        view:"pivot",
+                        max: true,
+                        structure: {
+                            rows: ["name"],
+                            values: [
+                                {name: "weight", operation: "time_avg"}
+
+                            ]
+                        }
+                    },
+
+                    { view:"resizer", width: 3},
+                    { rows:[
+                        { template:"Choose Time Frame", type:"header"},
+                        { view:"toolbar", 
+                            rows:[
+                                { view: "button", id:"gay", label:"All Time", click:function(id,event){
+                                    time = 100 
+                                    }
+                                },   
+                                { view: "button", id:"get", label:"Last 5", click:function(id,event){
+                                    time = 5 
+                                    }
+                                }   
+                            ]
+                        }
+                    ]},
+                    ]
+                });
+                var time = 100
+
+                $$("pivot").operations.time_avg = function(data) {
+                    console.log(data[0][0])
+                    if (typeof data[0][0] == 'undefined') {
+                        return "NaN";
+                    } else {
+                        console.log("run time series function")
+                        data = data[0];
+                        var sum = 0.0;
+                        var length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var num = window.parseFloat(data[i].value, 10);
+                            if (!window.isNaN(num) && (data[i].time <= time)) {
+                            sum += Math.abs(num);
+                            length += 1;
+                            }
+                        }
+                        console.log(length)
+                        return sum/length;
+                    }
+                };
+
+                var data_frame = null
+                var url='http://localhost:9292/time_data';
+                var data = new XMLHttpRequest();
+                data.open("GET", url, true);
+                data.send();
+
+                data.onreadystatechange = (e) => {
+                    if (data.readyState == 4) {
+                        data_frame = data.response
+                        $$("pivot").parse(data_frame);
+                    }
+                }
+            </script>
+        </div>
+    </body>
+</html>
