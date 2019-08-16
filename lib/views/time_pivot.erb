@@ -8,12 +8,24 @@
         <link rel="stylesheet" href="./pivot/codebase/pivot.css" type="text/css" charset="utf-8">
     </head>
     <body>
-        <h3> Galileo Pivot Data</h3>
         <div id="testA">
             <script type="text/javascript" charset="utf-8">
+                var parser = webix.Date.strToDate("%Y.%m.%d");
+                var un_parser = webix.Date.dateToStr("%Y.%m.%d");
 
                 webix.ui({
-                    cols: [{
+                    rows: [
+                    //Date pickers
+                        { 
+                            view: "daterangepicker", 
+                            label: "Time: ", 
+                            width: 350,
+                            id:"start",
+                            value: "" 
+                        }, 
+                    /////////////////
+                    // pivot table
+                    {
                         id:"pivot",
                         view:"pivot",
                         max: true,
@@ -21,52 +33,53 @@
                             rows: ["name"],
                             values: [
                                 {name: "weight", operation: "time_avg"}
-
                             ]
-                        }
+                        },
                     },
-
-                    { view:"resizer", width: 3},
-                    { rows:[
-                        { template:"Choose Time Frame", type:"header"},
-                        { view:"toolbar", 
-                            rows:[
-                                { view: "button", id:"gay", label:"All Time", click:function(id,event){
-                                    time = 100 
-                                    }
-                                },   
-                                { view: "button", id:"get", label:"Last 5", click:function(id,event){
-                                    time = 5 
-                                    }
-                                }   
-                            ]
-                        }
-                    ]},
+                    ///////////////
                     ]
                 });
-                var time = 100
 
+                //data range updater
+
+                var start = new Date(); 
+
+                $$("start").attachEvent("onChange",function(ev){
+                    start = $$('start').getValue().start;
+                    $$("pivot").refresh();
+                });
+
+                var end = new Date(); 
+
+                $$("start").attachEvent("onChange",function(ev){
+                    end = $$('start').getValue().end;
+                    $$("pivot").refresh();
+                });
+                ///////////////////
+
+
+                // time average operation
                 $$("pivot").operations.time_avg = function(data) {
-                    console.log(data[0][0])
                     if (typeof data[0][0] == 'undefined') {
                         return "NaN";
                     } else {
-                        console.log("run time series function")
                         data = data[0];
                         var sum = 0.0;
                         var length = 0;
                         for (var i = 0; i < data.length; i++) {
                             var num = window.parseFloat(data[i].value, 10);
-                            if (!window.isNaN(num) && (data[i].time <= time)) {
-                            sum += Math.abs(num);
-                            length += 1;
+                            if (!window.isNaN(num) && 
+                                (parser(data[i].time) >= start) && (parser(data[i].time) <= end)) {
+                                sum += Math.abs(num);
+                                length += 1;
                             }
                         }
-                        console.log(length)
                         return sum/length;
                     }
                 };
+                /////////////////////
 
+                //data request and init
                 var data_frame = null
                 var url='http://localhost:9292/time_data';
                 var data = new XMLHttpRequest();
@@ -75,10 +88,15 @@
 
                 data.onreadystatechange = (e) => {
                     if (data.readyState == 4) {
-                        data_frame = data.response
+                        data_frame = JSON.parse(data.response);
                         $$("pivot").parse(data_frame);
+                        $$("start").setValue({
+                            start: parser(data_frame[0].weight[0].time), 
+                            end: parser(data_frame[1].weight[data_frame[0].weight.length - 1].time), 
+                        });
                     }
                 }
+                /////////////////////////////
             </script>
         </div>
     </body>

@@ -39,31 +39,31 @@ module GPEPivot
     def json_gen
         JSON.generate([
             {  name: "joe",    weight: [
-                {time:  1, value: 170}, 
-                {time:  2, value: 169},
-                {time:  3, value: 169},
-                {time:  4, value: 168},
-                {time:  5, value: 167},
-                {time:  6, value: 166},
-                {time:  7, value: 165},
-                {time:  8, value: 166},
-                {time:  9, value: 167},
-                {time: 10, value: 166},
-                {time: 11, value: 167}
+                {time: "2019.07.10", value: 170}, 
+                {time: "2019.07.11", value: 169},
+                {time: "2019.07.12", value: 169},
+                {time: "2019.07.13", value: 168},
+                {time: "2019.07.14", value: 167},
+                {time: "2019.07.15", value: 166},
+                {time: "2019.07.16", value: 165},
+                {time: "2019.07.17", value: 166},
+                {time: "2019.07.18", value: 167},
+                {time: "2019.07.19", value: 166},
+                {time: "2019.07.20", value: 167}
             ],
             age: 19  },
             {  name: "ben",    weight: [
-                {time:  1, value: 130}, 
-                {time:  2, value: 139},
-                {time:  3, value: 139},
-                {time:  4, value: 138},
-                {time:  5, value: 137},
-                {time:  6, value: 136},
-                {time:  7, value: 135},
-                {time:  8, value: 136},
-                {time:  9, value: 137},
-                {time: 10, value: 136},
-                {time: 11, value: 137}
+                {time: "2019.07.20", value: 130}, 
+                {time: "2019.07.21", value: 139},
+                {time: "2019.07.22", value: 139},
+                {time: "2019.07.23", value: 138},
+                {time: "2019.07.24", value: 137},
+                {time: "2019.07.25", value: 136},
+                {time: "2019.07.26", value: 135},
+                {time: "2019.07.27", value: 136},
+                {time: "2019.07.28", value: 137},
+                {time: "2019.07.29", value: 136},
+                {time: "2019.07.30", value: 137}
             ],
             age: 17  }
         ])
