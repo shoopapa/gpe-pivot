@@ -18,9 +18,13 @@ module GPEPivot
     before do
       response.headers['Access-Control-Allow-Origin'] = '*'
     end
+
+    get "/" do
+        erb :home
+    end
     
     get "/galileo" do
-        erb :home
+        erb :galileo_pivot
     end
 
     get "/time" do

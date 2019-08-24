@@ -1,114 +1,33 @@
-<!DOCTYPE HTML>
+<!DOCTYPE HTML>  
 <html>
     <head>
-        <script src="./pivot/codebase/webix/webix.js" type="text/javascript"></script>
+        <script src="./pivot/codebase/webix/webix.js" type="text/javascript"></script> 
         <script src="./pivot/codebase/pivot.js" type="text/javascript"></script>
 
-        <link rel="stylesheet" href="./pivot/codebase/webix/webix.css" type="text/css" charset="utf-8">
-        <link rel="stylesheet" href="./pivot/codebase/pivot.css" type="text/css" charset="utf-8">
+         <link rel="stylesheet" href="./pivot/codebase/webix/webix.css" type="text/css" charset="utf-8">
+         <link rel="stylesheet" href="./pivot/codebase/pivot.css" type="text/css" charset="utf-8"> 
     </head>
     <body>
-        <h3> Galileo Pivot Data</h3>
-        <div id="testA">
-            <script type="text/javascript" charset="utf-8">
-
-                var structures = [{
-                    label: "Resource usage",
-                    structure:{
-                      rows: ["Datacenter", "Name"],
-                      columns: [],
-                      values: [
-                      {name: "Peak CPU (24 hours)", operation: "sum"},
-                      {name: "Peak CPU (7 days)", operation: "sum"},
-                      {name: "Peak CPU (30 days)", operation: "sum"},
-                      {name: "Peak Memory (24 hours)", operation: "sum"}, 
-                      {name: "Peak Memory (7 days)", operation: "sum"},
-                      {name: "Peak Memory (30 days)", operation: "sum"},
-                      {name: "Avg CPU (24 hours)", operation: "sum"},
-                      {name: "Avg CPU (7 days)", operation: "sum"},
-                      {name: "Avg CPU (30 days)", operation: "sum"},
-                      {name: "Avg Memory (24 hours)", operation: "sum"},
-                      {name: "Avg Memory (7 days)", operation: "sum"},
-                      {name: "Avg Memory (30 days)", operation: "sum"}
-                      ],
-                    }
-                }, {
-                    label: "Specs",
-                    structure: {
-                        rows: ["Model"],
-                        columns: [ "CPU Speed" ],
-                        values: [
-                            {name: "VMs", operation: "sum"},
-                            {name: "CPU Cores", operation: "sum"},
-                            {name: "CPU Sockets", operation: "sum"}
-                        ]
-                    }
-                }]
-
-                function table(data) {
-                    webix.ui({
-                        cols: [{
-                            id:"pivot",
-                            view:"pivot",
-                            data: data,
-                            columnWidth: 150,
-                            datatable:{
-                                rowHeight:33,
-                                rowLineHeight:33,
-                                headerRowHeight:33,
-                            },
-                            max: true,
-                            structure: {
-                                rows: ["Model"],
-                                columns: [ "CPU Speed" ],
-                                values: [
-                                    {name: "VMs", operation: "sum"},
-                                    {name: "CPU Cores", operation: "sum"},
-                                    {name: "CPU Sockets", operation: "sum"}
-                                ],
-                            },
-                        },
-                        { view:"resizer"},
-                        { rows:[
-                            {template:"<span class='webix_structure_header'>Structures</span>", type:"header", height: 56, 
-                                onClick:{
-                                    webix_structure_header: function(){
-                                        var str = $$("pivot").getStructure();
-                                        webix.message(JSON.stringify(str));
-                                    }
-                                }
-                            },
-                            { view:"list", id:"structures", type:{height:40}, css:"webix_pivot_structures", data:structures, template:"#label#", width: 250, select:true } 
-                        ]}
-                        ]
-                    });
-                    $$("structures").attachEvent("onItemClick", function(id) {
-                     var str = webix.copy(this.getItem(id).structure);
-                     $$("pivot").setStructure(str);
-                    });
+        <script>
+            webix.ui({
+                rows:[
+                { 
+                    view:"list",
+                    id: "list",
+                    dynamic:true,
+                    width:320,
+                    height:600,
+                    select: 1,
+                    template:"#name#",
+                    data:[{"name": "your_mom", "id": "galileo"}, {"name": "joe_boy", "id": "time"}]
                 }
+                ] 
+            })
 
-                var url='http://localhost:9292/galileo_data';
-                //var url='https://my.galileosuite.com/atsgroup/table/nil/VMHostAssetsTable.json?t=1747b821fe3cfb681a2ef92040dbbbae003d99d905679903820001f5531970e0';
-                var Http = new XMLHttpRequest();
-                Http.open("GET", url, true); 
-                Http.send(); 
-
-                Http.onreadystatechange = (e) => {
-                    if (Http.readyState == 4) {
-                        var head = JSON.parse(Http.response).column_headers;
-                        var row_data = JSON.parse(Http.response).row_data;
-                        var data = []
-                        for (p = 0; p < row_data.length; p++) {
-                            data.push({})
-                            for (h = 0; h < head.length; h++) {
-                              data[p][head[h]] = row_data[p][h];
-                            }
-                        }
-                        table(data)
-                    }
-                }
-            </script>
-        </div>
+            $$("list").attachEvent("onAfterSelect", function (id) {
+                console.log($$("list").getSelectedItem())
+                window.location.replace($$("list").getSelectedItem().id);
+            })
+        </script>
     </body>
 </html>
