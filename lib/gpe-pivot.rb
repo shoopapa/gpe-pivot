@@ -1,6 +1,7 @@
 require "gpe-pivot/version"
 require "sinatra"
 require "json"
+require "awesome_print"
 
 module GPEPivot
     
@@ -23,24 +24,53 @@ module GPEPivot
         erb :home
     end
     
-    get "/galileo" do
-        erb :galileo_pivot
+    get "/list" do
+        list
     end
 
-    get "/time" do
+    get "/pivot/time" do
         erb :time_pivot
     end
+
+    get "/pivot/:data" do
+        erb :general_pivot, :locals => {:data => params[:data]}
+    end
     
-    get "/galileo_data" do
-        File.read("lib/public/gal.json")
+    get "/data/galileo" do
+       reformat("lib/public/tables/gal.json")
     end
 
-    get "/time_data" do
+    get "/data/time" do
         json_gen
     end
 
+    def reformat(path)
+        data = JSON.parse(File.read(path))
+        head = data["column_headers"] 
+        row_data = data["row_data"]
+        data_format = []
+        p = 0
+        while p < row_data.length do
+            data_format[p] = {}
+            h = 0
+            while h < head.length do
+                data_format[p][head[h]] = row_data[p][h]
+                h += 1
+            end
+           p += 1 
+        end
+        JSON.generate(data_format)
+    end
 
-    def json_gen
+    def list
+        JSON.generate([
+            {id: 1, value: "cars"},
+            {id: 2, value:"weight"}, 
+            {id: 3, value:"galileo"}
+        ])
+    end
+
+    def time_json
         JSON.generate([
             {  name: "joe",    weight: [
                 {time: "2019.07.10", value: 170}, 
@@ -70,6 +100,12 @@ module GPEPivot
                 {time: "2019.07.30", value: 137}
             ],
             age: 17  }
+        ])
+    end
+    def json_test
+        JSON.generate([
+            {model: "pissat", year: "2014"},
+            {model: "lexus", year: "2013"}
         ])
     end
 

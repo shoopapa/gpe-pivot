@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>  
+<html>
+    <head>
+    </head>
+    <body>
+    <script>
+        var data = <%= File.read("lib/public/gal.json") %>
+        var head = data.column_headers;
+        var row_data = data.row_data;
+        var data_format = []
+        for (p = 0; p < row_data.length; p++) {
+            data_format.push({})
+            for (h = 0; h < head.length; h++) {
+              data_format[p][head[h]] = row_data[p][h];
+            }
+        }
+        document.write(JSON.stringify(data_format));
+    </script> 
+    </body>
+</html>

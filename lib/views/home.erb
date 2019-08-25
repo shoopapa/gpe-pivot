@@ -19,7 +19,10 @@
                     height:600,
                     select: 1,
                     template:"#name#",
-                    data:[{"name": "your_mom", "id": "galileo"}, {"name": "joe_boy", "id": "time"}]
+                    data:[
+                        {"name": "your_mom", "id": "pivot/galileo"}, 
+                        {"name": "joe_boy", "id": "pivot/time"}
+                    ]
                 }
                 ] 
             })
@@ -28,6 +31,7 @@
                 console.log($$("list").getSelectedItem())
                 window.location.replace($$("list").getSelectedItem().id);
             })
+
         </script>
     </body>
 </html>

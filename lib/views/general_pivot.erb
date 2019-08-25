@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <script src="./codebase/webix/webix.js" type="text/javascript"></script>
+        <script src="./codebase/pivot.js" type="text/javascript"></script>
+
+        <script src="../layout/views.js" type="text/javascript"></script>
+
+        <script src="../layout/http_request.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" href="./codebase/webix/webix.css" type="text/css" charset="utf-8">
+        <link rel="stylesheet" href="./codebase/pivot.css" type="text/css" charset="utf-8">
+    </head>
+    <body>
+        <script>
+            webix.ui({
+                rows:[
+                    table_select,
+                    {cols:[
+                        pivot,
+                        {view: "resizer"},
+                        list
+                    ]}
+                ]
+            });
+
+////listens for structure changes
+            $$("structures").attachEvent("onItemClick", function(id) {
+             var str = webix.copy(this.getItem(id).structure);
+             $$("pivot").setStructure(str);
+            });
+//////////////////////////
+
+///loads list options
+            var url = "http://localhost:9292/list"
+            http_request(url, function() {
+                $$("tables").define("options", data)
+            })
+//////////////////////
+
+///loads data
+            var url= 'http://localhost:9292/data/'.concat("<%= data %>");
+            http_request(url, function() {
+                $$("pivot").parse(data)
+            })
+///////////////////
+        </script>
+    </body>
+</html>
