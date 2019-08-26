@@ -20,16 +20,8 @@ module GPEPivot
       response.headers['Access-Control-Allow-Origin'] = '*'
     end
 
-    get "/" do
-        erb :home
-    end
-    
     get "/list" do
         list
-    end
-
-    get "/pivot/time" do
-        erb :time_pivot
     end
 
     get "/pivot/:data" do
@@ -41,7 +33,11 @@ module GPEPivot
     end
 
     get "/data/time" do
-        json_gen
+        time_json
+    end
+
+    get "/data/colors" do
+        File.read("lib/public/tables/colors.json")        
     end
 
     def reformat(path)
@@ -64,9 +60,9 @@ module GPEPivot
 
     def list
         JSON.generate([
-            {id: 1, value: "cars"},
-            {id: 2, value:"weight"}, 
-            {id: 3, value:"galileo"}
+            {id: "galileo", value: "galileo"},
+            {id: "time", value:"time"}, 
+            {id: "colors", value:"colors"}
         ])
     end
 
