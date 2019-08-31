@@ -27,6 +27,10 @@ module GPEPivot
     get "/pivot/:data" do
         erb :general_pivot, :locals => {:data => params[:data]}
     end
+
+    get "/table" do
+        erb :table
+    end
     
     get "/data/galileo" do
        reformat("lib/public/tables/gal.json")
@@ -62,7 +66,8 @@ module GPEPivot
         JSON.generate([
             {id: "galileo", value: "galileo"},
             {id: "time", value:"time"}, 
-            {id: "colors", value:"colors"}
+            {id: "colors", value:"colors"},
+            {id: "akjldlkjaljk", value:"gay"}
         ])
     end
 

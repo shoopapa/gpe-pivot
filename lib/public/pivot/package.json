@@ -1,7 +1,7 @@
 {
   "name": "webix-pivot",
   "productTag": "pivot",
-  "version": "6.4.2",
+  "version": "6.4.5",
   "description": "Javascript Pivot for Web",
   "scripts": {
     "lint": "yarn eslint \"sources/**/*.js\"",
